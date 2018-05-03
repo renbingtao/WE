@@ -1,0 +1,132 @@
+# [JSP Template] 141
+
+; ================ Jass Template File ==============
+; The first line is about version, don't change it.
+; ';' is the beginning of a comment line.
+; You can define your custom template file with config.exe.
+; If Jass Shop Pro cannot find custom template file, it will auto load the file named "Default.tmt".
+; ==================================
+
+; ==================================
+;       Menus
+; ---------------------------------
+; - : Line(separator)
+; Menu Tilte|ShortCut = Text
+; ShorCut = { ([Ctrl]+[Shift|Alt] | [Ctrl|Shift|Alt]) + [ASCKey|F1..12] }
+; ---------------------------------
+; {Menu1
+;   {Menu 2
+;      Menu 3
+;      ...
+;   }
+;   ...
+; }
+;
+; ==================================
+
+; ==================================
+;       Commanders
+; ---------------------------------
+; Comment char = ;
+; Comand char = #
+; Sub comand char = | n t b c
+; #| = postion
+; #B = Selecting Start
+; #E = Selecting End
+; #n = return
+; #t = Tab
+; #s = Shift+Tab
+; #c = Clear indent
+; #C = Clear line
+; ## = #
+; #* =   (* is others)
+; #? = Command mode - must be the ending of a line
+; ---- Command mode ----
+; ? = Beginning commander
+; , = New command
+; ,, = ,
+; a = Select text of this tamplate
+; A = Select all text
+; R = Show Replace Dialog
+; ---------------------------------
+; "New Trigger" could be a sample.
+; ==================================
+
+New "if"|Ctrl+I=if #| then#n#t#n#sendif#n
+New "if-else"|Ctrl+Shift+I=if #| then#n#t#n#selse#n#t#n#sendif#n
+New "else-if"|Ctrl+E=#selse if #| then#n#t
+New "loop"|Ctrl+L=loop#n#texitwhen #|#n#n#sendloop#n
+-
+
+New Function|Ctrl+U=#n#cfunction #| takes  returns #n#t#n//return #n#sendfunction#n
+New Conditions=#n#cfunction #BNew#E_Conditions takes nothing returns boolean#n#t#nreturn #n#sendfunction#n
+New Actions=#n#cfunction #BNew#E_Actions takes nothing returns nothing#n#t#n#sendfunction#n
+New Trigger|Ctrl+T=#n#cfunction Trig_NewTrigger_Conditions takes nothing returns boolean#n#t#nreturn #n#sendfunction#n#nfunction Trig_NewTrigger_Actions takes nothing returns nothing#n#t#n#sendfunction#n#n//==== Init Trigger NewTrigger ====#nfunction InitTrig_NewTrigger takes nothing returns nothing#n#tset gg_trg_NewTrigger = CreateTrigger()#n//call TriggerRegister__(gg_trg_NewTrigger, )#ncall TriggerAddCondition(gg_trg_NewTrigger, Condition(function Trig_NewTrigger_Conditions))#ncall TriggerAddAction(gg_trg_NewTrigger, function Trig_NewTrigger_Actions)#n#sendfunction#n#n#?a,RNewTrigger,Enter a new name,, then Replace All
+
+-
+
+{Events
+{Unit
+Specific Unit Event=call TriggerRegisterUnitEvent(#|, EVENT_UNIT_)
+Generic Unit Event=call TriggerRegisterAnyUnitEventBJ(#|, EVENT_PLAYER_UNIT_)
+Player-Owned Unit Event=call TriggerRegisterPlayerUnitEventSimple(#|, EVENT_PLAYER_UNIT_)
+Unit Enters Region=call TriggerRegisterEnterRectSimple(#|, )
+}
+{Player
+Player Event=call TriggerRegisterPlayerEvent(#|, , EVENT_PLAYER_)
+Chat Message=call TriggerRegisterPlayerChatEvent(#|, , " ", )
+Selection Event=call TriggerRegisterPlayerSelectionEventBJ(#|, , )
+Leaves Game=call TriggerRegisterPlayerEventLeave(#|, )
+}
+}
+
+{Actions
+Wait=call TriggerSleepAction(#|)
+Wait(game-time)=call PolledWait(#|)
+Want Destroy Group=set bj_wantDestroyGroup = true
+{Unit
+Create Units=CreateNUnitsAtLoc(#|, , , , )
+Create An Unit=CreateUnit(#|, '', , , bj_UNIT_FACING)
+Remove=call RemoveUnit(#|)
+}
+}
+
+{BJ Globals
+{Real
+PIE=bj_PI
+}
+{Unit
+Last Created Unit=bj_lastCreatedUnit
+}
+{Group
+Want Destroy Group=bj_wantDestroyGroup
+}
+}
+
+{Colors
+{Player Color
+Player 1=|c00ff0000#||r
+Player 2=|c000000ff#||r
+Player 3=|c0018e7bd#||r
+Player 4=|c00520084#||r
+Player 5=|c00ffff00#||r
+Player 6=|c00ff8a08#||r
+Player 7=|c0018be00#||r
+Player 8=|c00e759ad#||r
+Player 9=|c00949694#||r
+Player 10=|c007bbef7#||r
+Player 11=|c00086142#||r
+Player 12=|c004a2800#||r
+}
+Red=|c00ff0000#||r
+Green=|c0000ff00#||r
+Blue=|c000000ff#||r
+Yellow=|c00ffff00#||r
+Orange=|c00ff8000#||r
+Light Blue=|c0000ffff#||r
+Pink=|c00ff00ff#||r
+White=|c00ffffff#||r
+Black=|c00000000#||r
+Gray=|c00808080#||r
+Brown=|c00800000#||r
+}
